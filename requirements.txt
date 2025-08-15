@@ -1,0 +1,10 @@
+# Análisis y manipulación de datos
+pandas
+numpy
+
+# Jupyter Notebook
+jupyter
+
+# Empaquetado y distribución
+setuptools
+build
