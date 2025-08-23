@@ -4,13 +4,24 @@ from UrlEMT import UrlEMT
 
 
 class BiciMad:
+    """BiciMad."""
+
     def __init__(self, month: int, year: int):
+        """__init__.
+
+        :param month:
+        :type month: int
+        :param year:
+        :type year: int
+        """
         self._month = month
         self._year = year
         self._data = self.get_data(month, year)
 
     @staticmethod
+
     def get_data(month: int, year: int) -> pd.DataFrame:
+        """"""
         enlaces = UrlEMT()
         csv_file = enlaces.get_csv(month, year)
 
@@ -32,12 +43,15 @@ class BiciMad:
 
     @property
     def data(self):
+        """data."""
         return self._data
 
     def __str__(self):
+        """__str__."""
         return str(self._data)
 
     def clean(self):
+        """clean."""
         self._data.dropna(how='all', inplace=True)
         for col in ['fleet', 'idBike', 'station_lock', 'station_unlock']:
             self._data[col] = self._data[col].astype(str)
@@ -45,6 +59,10 @@ class BiciMad:
         self._data.index.name = 'fecha'
 
     def resume(self) -> pd.Series:
+        """resume.
+
+        :rtype: pd.Series
+        """
         total_uses = len(self._data)
         total_time = self._data['trip_minutes'].sum() / 60
         popular_counts = self._data['address_unlock'].value_counts()

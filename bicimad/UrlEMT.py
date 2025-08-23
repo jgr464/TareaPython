@@ -7,20 +7,48 @@ import requests
 
 
 class UrlEMT:
+    """Clase que gestiona la obtención de enlaces válidos de uso de bicicletas eléctricas
+    desde el portal de datos abiertos de la EMT de Madrid.
+
+    Esta clase permite:
+    - Obtener todos los enlaces válidos a archivos CSV comprimidos con datos de viajes.
+    - Filtrar por mes y año.
+    - Descargar y extraer el archivo CSV correspondiente a una fecha específica."""
+
     EMT = 'https://opendata.emtmadrid.es/'
     GENERAL = "/Datos-estaticos/Datos-generales-(1)"
 
     def __init__(self):
+        """
+        Inicializa la clase obteniendo el conjunto de enlaces válidos.
+        """
         self._valid_urls = self.select_valid_urls()
 
     @staticmethod
     def get_links(html: str) -> Set[str]:
-        # Expresión regular para encontrar todos los href con archivos CSV
+        """
+        Extrae todos los enlaces válidos a archivos CSV del contenido HTML proporcionado.
+
+        Args:
+            html (str): El texto HTML de la página.
+
+        Returns:
+            Set[str]: Un conjunto con los enlaces encontrados que coinciden con el patrón de los archivos CSV.
+        """
         pattern = r'href=["\'](.*?trips_\d{2}_\d{2}_[A-Za-z]+\.csv)["\']'
         return set(re.findall(pattern, html))
 
     @staticmethod
     def select_valid_urls() -> Set[str]:
+        """
+        Realiza una petición a la web de EMT para obtener todos los enlaces válidos.
+
+        Returns:
+            Set[str]: Un conjunto de URLs válidas completas.
+
+        Raises:
+            ConnectionError: Si la petición al servidor falla o devuelve un código diferente de 200.
+        """
         url = UrlEMT.EMT + UrlEMT.GENERAL
         try:
             response = requests.get(url)
@@ -28,16 +56,27 @@ class UrlEMT:
                 raise ConnectionError("Fallo en la petición al servidor de la EMT")
             html = response.text
             links = UrlEMT.get_links(html)
-            # Completar los enlaces parciales
             return {UrlEMT.EMT + link.lstrip('/') for link in links}
         except requests.RequestException as e:
             raise ConnectionError(f"Error al conectar con la EMT: {e}")
 
     def get_url(self, month: int, year: int) -> str:
+        """
+        Devuelve la URL del archivo CSV correspondiente al mes y año indicados.
+
+        Args:
+            month (int): Mes del archivo (entre 1 y 12).
+            year (int): Año del archivo (entre 21 y 23).
+
+        Returns:
+            str: La URL completa del archivo CSV.
+
+        Raises:
+            ValueError: Si el mes o el año están fuera del rango permitido, o si no existe un enlace para esa fecha.
+        """
         if not (1 <= month <= 12) or not (21 <= year <= 23):
             raise ValueError("Mes o año fuera de rango válido")
 
-        # Formato trips_YY_MM_...csv
         prefix = f"trips_{year:02d}_{month:02d}_"
         for url in self._valid_urls:
             if prefix in url:
@@ -45,6 +84,20 @@ class UrlEMT:
         raise ValueError("No existe un enlace válido para ese mes y año")
 
     def get_csv(self, month: int, year: int) -> TextIO:
+        """
+        Descarga y extrae el archivo CSV correspondiente al mes y año especificado.
+
+        Args:
+            month (int): Mes del archivo.
+            year (int): Año del archivo.
+
+        Returns:
+            TextIO: Un objeto de texto con el contenido CSV.
+
+        Raises:
+            ConnectionError: Si falla la descarga del archivo ZIP.
+            ValueError: Si el archivo ZIP no contiene un CSV.
+        """
         url = self.get_url(month, year)
         try:
             response = requests.get(url)
