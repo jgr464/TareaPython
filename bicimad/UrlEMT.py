@@ -27,7 +27,8 @@ class UrlEMT:
     @staticmethod
     def get_links(html: str) -> Set[str]:
         """
-        Extrae todos los enlaces válidos a archivos CSV del contenido HTML proporcionado.
+        Toma como parámetros un texto HTML y devuelva un conjunto con todos los enlaces.
+        Esta función usa expresiones regulares para encontrar los enlaces.
 
         Args:
             html (str): El texto HTML de la página.
@@ -41,7 +42,9 @@ class UrlEMT:
     @staticmethod
     def select_valid_urls() -> Set[str]:
         """
-        Realiza una petición a la web de EMT para obtener todos los enlaces válidos.
+        Método estático que se encarga de actualizar el atributo de los objetos de la clase.
+         Devuelve un conjunto de enlaces válidos. Si la petición al servidor de la EMT devuelve
+         un código de retorno distinto de 200, la función lanza una excepción de tipo ConnectionError.
 
         Returns:
             Set[str]: Un conjunto de URLs válidas completas.
@@ -62,7 +65,10 @@ class UrlEMT:
 
     def get_url(self, month: int, year: int) -> str:
         """
-        Devuelve la URL del archivo CSV correspondiente al mes y año indicados.
+        Método de instancia que acepta los argumentos de tipo entero month y year y devuelve el string de
+        la URL correspondiente al mes month y año year. Si no existe un enlace válido correspondiente al
+        mes month y año year, se lanzará una excepción de tipo ValueError.
+
 
         Args:
             month (int): Mes del archivo (entre 1 y 12).
@@ -85,7 +91,9 @@ class UrlEMT:
 
     def get_csv(self, month: int, year: int) -> TextIO:
         """
-        Descarga y extrae el archivo CSV correspondiente al mes y año especificado.
+        Método de instancia que acepta los argumentos de tipo entero month y year y devuelve un fichero
+        en formato CSV correspondiente al mes month y año year. El tipo del objeto devuelto es TextIO.
+        La función lanza una excepción de tipo ConnectionError en caso de que falle la petición al servidor de la EMT.
 
         Args:
             month (int): Mes del archivo.
