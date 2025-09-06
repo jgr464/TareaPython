@@ -15,8 +15,8 @@ class UrlEMT:
     - Filtrar por mes y año.
     - Descargar y extraer el archivo CSV correspondiente a una fecha específica."""
 
-    EMT = 'https://opendata.emtmadrid.es/'
-    GENERAL = "/Datos-estaticos/Datos-generales-(1)"
+    EMT = "https://antares.sip.ucm.es/"
+    GENERAL = "luis/bicimad"
 
     def __init__(self):
         """
