@@ -16,7 +16,7 @@ class UrlEMT:
     - Descargar y extraer el archivo CSV correspondiente a una fecha específica."""
 
     EMT = "https://antares.sip.ucm.es/"
-    GENERAL = "luis/bicimad"
+    GENERAL = "luis/bicimad/"
 
     def __init__(self):
         """
@@ -36,7 +36,7 @@ class UrlEMT:
         Returns:
             Set[str]: Un conjunto con los enlaces encontrados que coinciden con el patrón de los archivos CSV.
         """
-        pattern = r'href=["\'](.*?trips_\d{2}_\d{2}_[A-Za-z]+\.csv)["\']'
+        pattern = r'href=["\'](.*?trips_\d{2}_\d{2}_[A-Za-z]+-csv\.zip)["\']'
         return set(re.findall(pattern, html))
 
     @staticmethod
@@ -59,7 +59,7 @@ class UrlEMT:
                 raise ConnectionError("Fallo en la petición al servidor de la EMT")
             html = response.text
             links = UrlEMT.get_links(html)
-            return {UrlEMT.EMT + link.lstrip('/') for link in links}
+            return {url + link.lstrip('/') for link in links}
         except requests.RequestException as e:
             raise ConnectionError(f"Error al conectar con la EMT: {e}")
 
@@ -83,7 +83,7 @@ class UrlEMT:
         if not (1 <= month <= 12) or not (21 <= year <= 23):
             raise ValueError("Mes o año fuera de rango válido")
 
-        prefix = f"trips_{year:02d}_{month:02d}_"
+        prefix = f"trips_{year:02d}_{month:02d}"
         for url in self._valid_urls:
             if prefix in url:
                 return url

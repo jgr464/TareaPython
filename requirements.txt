@@ -16,4 +16,5 @@ sphinx
 doq
 
 #Pruebas
-pytest
+pytest~=8.4.1
+truststore~=0.10.4
