@@ -1,6 +1,6 @@
 import pandas as pd
 
-from UrlEMT import UrlEMT
+from .UrlEMT import UrlEMT
 
 
 class BiciMad:
@@ -14,6 +14,9 @@ class BiciMad:
         :param year:
         :type year: int
         """
+
+        if not (1 <= month <= 12 and 21 <= year <= 23):
+            raise ValueError("Mes o año fuera de rango permitido.")
         self._month = month
         self._year = year
         self._data = self.get_data(month, year)
@@ -30,14 +33,16 @@ class BiciMad:
             'locktype', 'unlocktype', 'geolocation_lock', 'address_lock', 'lock_date',
             'station_unlock', 'unlock_station_name', 'station_lock', 'lock_station_name'
         ]
-
-        df = pd.read_csv(
-            csv_file,
-            sep=';',
-            usecols=columnas,
-            index_col='unlock_date',
-            parse_dates=['unlock_date', 'lock_date']
-        )
+        try:
+            df = pd.read_csv(
+                csv_file,
+                sep=';',
+                usecols=columnas,
+                index_col='unlock_date',
+                parse_dates=['unlock_date', 'lock_date']
+            )
+        except Exception as e:
+            raise ValueError(f"Error al leer el CSV: {e}")
 
         return df
 
