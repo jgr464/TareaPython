@@ -1,5 +1,6 @@
 import pandas as pd
 from .UrlEMT import UrlEMT
+import matplotlib.pyplot as plt
 
 class BiciMad:
     """
@@ -113,3 +114,57 @@ class BiciMad:
             'most_popular_station': most_popular,
             'uses_from_most_popular': max_count
         })
+
+    def most_popular_stations(self) -> set:
+        """
+        Devuelve el conjunto de direcciones de las estaciones de desbloqueo
+        que han registrado el mayor número de viajes en el mes.
+
+        Returns:
+            set: Estaciones (direcciones) más utilizadas para desbloqueo.
+        """
+        counts = self._data['address_unlock'].value_counts()
+        max_count = counts.max()
+        return set(counts[counts == max_count].index)
+
+    def day_time(self, plot: bool = False) -> pd.Series:
+        """
+        Calcula las horas totales de uso de bicicletas por día.
+
+        Args:
+            plot (bool): Si True, dibuja un gráfico de barras.
+
+        Returns:
+            pd.Series: Serie con índice = fechas y valores = horas de uso.
+        """
+        horas_por_dia = self._data.groupby(self._data.index)['trip_minutes'].sum() / 60
+
+        if plot:
+            horas_por_dia.plot(kind='bar', figsize=(12, 6))
+            plt.title("Horas totales de uso de BiciMAD por día")
+            plt.xlabel("Día")
+            plt.ylabel("Horas de uso")
+            plt.show()
+
+        return horas_por_dia
+
+    def weekday_time(self) -> pd.Series:
+        """
+        Calcula las horas totales de uso de bicicletas por día de la semana.
+
+        Returns:
+            pd.Series: Serie con índice = días de la semana (L, M, X, J, V, S, D)
+                       y valores = horas de uso.
+        """
+        # Mapear número de día (0=lunes, 6=domingo) a letras
+        dias = ["L", "M", "X", "J", "V", "S", "D"]
+        weekday = self._data.index.to_series().map(lambda d: dias[d.weekday()])
+
+        horas_por_dia = self._data.groupby(weekday)['trip_minutes'].sum() / 60
+
+        # Reordenar para que aparezcan en orden de lunes a domingo
+        horas_por_dia = horas_por_dia.reindex(dias, fill_value=0)
+
+        return horas_por_dia
+
+
