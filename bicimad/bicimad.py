@@ -84,7 +84,7 @@ class BiciMad:
         self._data.dropna(how='all', inplace=True)
         for col in ['fleet', 'idBike', 'station_lock', 'station_unlock']:
             self._data[col] = self._data[col].astype(str)
-        self._data.index = self._data.index.date
+        self._data.index = self._data.index.normalize()
         self._data.index.name = 'fecha'
 
     def resume(self) -> pd.Series:
@@ -117,15 +117,14 @@ class BiciMad:
 
     def most_popular_stations(self) -> set:
         """
-        Devuelve el conjunto de direcciones de las estaciones de desbloqueo
-        que han registrado el mayor número de viajes en el mes.
+        Devuelve el conjunto de direcciones de las 3 estaciones de desbloqueo
+        más utilizadas en el mes.
 
         Returns:
-            set: Estaciones (direcciones) más utilizadas para desbloqueo.
+            set: Direcciones de las 3 estaciones más utilizadas.
         """
         counts = self._data['address_unlock'].value_counts()
-        max_count = counts.max()
-        return set(counts[counts == max_count].index)
+        return set(counts.head(3).index)
 
     def day_time(self, plot: bool = False) -> pd.Series:
         """
@@ -167,4 +166,42 @@ class BiciMad:
 
         return horas_por_dia
 
+    def total_usage_day(self) -> pd.Series:
+        """
+        Calcula el número total de usos de bicicletas por día del mes.
+
+        Returns:
+            pd.Series: Serie con índice = fechas y valores = número de usos.
+        """
+        usos_por_dia = self._data.groupby(self._data.index).size()
+        usos_por_dia.index.name = "fecha"
+        usos_por_dia.name = "total_usos"
+        return usos_por_dia
+
+    def total_usage_by_station_day(self) -> pd.DataFrame:
+        """
+        Calcula el número total de usos por fecha y estación de desbloqueo.
+
+        Returns:
+            pd.DataFrame: DataFrame con MultiIndex (fecha, estación de desbloqueo)
+                          y valores = número de usos.
+        """
+        usos = (
+            self._data
+            .groupby([pd.Grouper(freq="1D"), "station_unlock"])
+            .size()
+            .rename("total_usos")
+        )
+        return usos
+
+    def usage_from_most_popular_station(self) -> pd.Series:
+        """
+        Devuelve el número de usos de las 3 estaciones de desbloqueo
+        más populares en el mes.
+
+        Returns:
+            pd.Series: Serie con estaciones como índice y número de usos como valores.
+        """
+        counts = self._data['address_unlock'].value_counts()
+        return counts.head(3)
 
