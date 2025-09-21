@@ -1,7 +1,7 @@
-import re
-from unittest.mock import patch, Mock
 import pytest
+
 from bicimad.UrlEMT import UrlEMT
+
 
 # HTML de prueba simulado
 def test_get_links():

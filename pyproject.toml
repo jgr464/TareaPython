@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bicimad"
+version = "0.1.0"
+description = "Librería para analizar datos de uso de BiciMAD"
+authors = [
+  { name="Jesús García Rodríguez", email="jesuschok@gmail.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+
+dependencies = [
+  "pandas>=2.3.1",
+  "numpy",
+  "matplotlib>=3.10.5",
+  "requests>=2.32.4"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]

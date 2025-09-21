@@ -1,6 +1,8 @@
-import pandas as pd
-from .UrlEMT import UrlEMT
 import matplotlib.pyplot as plt
+import pandas as pd
+
+from .UrlEMT import UrlEMT
+
 
 class BiciMad:
     """
@@ -204,4 +206,3 @@ class BiciMad:
         """
         counts = self._data['address_unlock'].value_counts()
         return counts.head(3)
-

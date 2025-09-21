@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+bicimad/Etapa1.py
+bicimad/UrlEMT.py
+bicimad/__init__.py
+bicimad/bicimad.py
+bicimad.egg-info/PKG-INFO
+bicimad.egg-info/SOURCES.txt
+bicimad.egg-info/dependency_links.txt
+bicimad.egg-info/requires.txt
+bicimad.egg-info/top_level.txt
+source/conf.py
+tests/__init__.py
+tests/conftest.py
+tests/test_UrlEMT.py
+tests/test_bicimad.py

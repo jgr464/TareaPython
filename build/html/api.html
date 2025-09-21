@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API Reference &#8212; BICIMAD 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="BICIMAD documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h1>
+<section id="module-bicimad.bicimad">
+<span id="bicimad"></span><h2>BiciMad<a class="headerlink" href="#module-bicimad.bicimad" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bicimad.bicimad.</span></span><span class="sig-name descname"><span class="pre">BiciMad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Clase que representa los datos de uso del sistema BiciMAD durante un mes concreto.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.clean" title="Link to this definition">¶</a></dt>
+<dd><p>Limpia y transforma el DataFrame:
+- Elimina filas completamente vacías.
+- Convierte ciertas columnas a tipo string (fleet, idBike, station_unlock, station_lock).
+- Establece el índice como fecha (sin hora), con el nombre ‘fecha’.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#bicimad.bicimad.BiciMad.data" title="Link to this definition">¶</a></dt>
+<dd><p>Permite acceder directamente al DataFrame de datos de uso de bicicletas.</p>
+<p>Devuelve:
+- pd.DataFrame: DataFrame con los datos cargados.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.day_time">
+<span class="sig-name descname"><span class="pre">day_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.day_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.day_time" title="Link to this definition">¶</a></dt>
+<dd><p>Calcula las horas totales de uso de bicicletas por día.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>plot</strong> (<em>bool</em>) – Si True, dibuja un gráfico de barras.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Serie con índice = fechas y valores = horas de uso.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.get_data">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.get_data" title="Link to this definition">¶</a></dt>
+<dd><p>Método estático que descarga y devuelve el DataFrame con los datos de uso de bicicletas
+para el mes y año especificados. Solo se cargan las columnas necesarias y las fechas se
+parsean como datetime.</p>
+<p>Devuelve:
+- pd.DataFrame: DataFrame con los datos del CSV correspondiente.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.most_popular_stations">
+<span class="sig-name descname"><span class="pre">most_popular_stations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">set</span></span></span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.most_popular_stations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.most_popular_stations" title="Link to this definition">¶</a></dt>
+<dd><p>Devuelve el conjunto de direcciones de las 3 estaciones de desbloqueo
+más utilizadas en el mes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Direcciones de las 3 estaciones más utilizadas.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>set</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.resume">
+<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.resume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.resume" title="Link to this definition">¶</a></dt>
+<dd><p>Devuelve un resumen básico de los datos del mes:
+- Año y mes de los datos
+- Total de usos registrados
+- Tiempo total de uso en horas
+- Estación de desbloqueo más popular
+- Número de usos desde dicha estación</p>
+<p>Devuelve:
+- pd.Series: Resumen estadístico con la información indicada.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.total_usage_by_station_day">
+<span class="sig-name descname"><span class="pre">total_usage_by_station_day</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.total_usage_by_station_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.total_usage_by_station_day" title="Link to this definition">¶</a></dt>
+<dd><p>Calcula el número total de usos por fecha y estación de desbloqueo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>DataFrame con MultiIndex (fecha, estación de desbloqueo)</dt><dd><p>y valores = número de usos.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.total_usage_day">
+<span class="sig-name descname"><span class="pre">total_usage_day</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.total_usage_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.total_usage_day" title="Link to this definition">¶</a></dt>
+<dd><p>Calcula el número total de usos de bicicletas por día del mes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Serie con índice = fechas y valores = número de usos.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.usage_from_most_popular_station">
+<span class="sig-name descname"><span class="pre">usage_from_most_popular_station</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.usage_from_most_popular_station"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.usage_from_most_popular_station" title="Link to this definition">¶</a></dt>
+<dd><p>Devuelve el número de usos de las 3 estaciones de desbloqueo
+más populares en el mes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Serie con estaciones como índice y número de usos como valores.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.bicimad.BiciMad.weekday_time">
+<span class="sig-name descname"><span class="pre">weekday_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/bicimad/bicimad.html#BiciMad.weekday_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.bicimad.BiciMad.weekday_time" title="Link to this definition">¶</a></dt>
+<dd><p>Calcula las horas totales de uso de bicicletas por día de la semana.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Serie con índice = días de la semana (L, M, X, J, V, S, D)</dt><dd><p>y valores = horas de uso.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-bicimad.UrlEMT">
+<span id="urlemt"></span><h2>UrlEMT<a class="headerlink" href="#module-bicimad.UrlEMT" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bicimad.UrlEMT.UrlEMT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bicimad.UrlEMT.</span></span><span class="sig-name descname"><span class="pre">UrlEMT</span></span><a class="reference internal" href="_modules/bicimad/UrlEMT.html#UrlEMT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.UrlEMT.UrlEMT" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Clase que gestiona la obtención de enlaces válidos de uso de bicicletas eléctricas
+desde el portal de datos abiertos de la EMT de Madrid.</p>
+<p>Esta clase permite:
+- Obtener todos los enlaces válidos a archivos CSV comprimidos con datos de viajes.
+- Filtrar por mes y año.
+- Descargar y extraer el archivo CSV correspondiente a una fecha específica.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bicimad.UrlEMT.UrlEMT.EMT">
+<span class="sig-name descname"><span class="pre">EMT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://antares.sip.ucm.es/'</span></em><a class="headerlink" href="#bicimad.UrlEMT.UrlEMT.EMT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bicimad.UrlEMT.UrlEMT.GENERAL">
+<span class="sig-name descname"><span class="pre">GENERAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'luis/bicimad/'</span></em><a class="headerlink" href="#bicimad.UrlEMT.UrlEMT.GENERAL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.UrlEMT.UrlEMT.get_csv">
+<span class="sig-name descname"><span class="pre">get_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TextIO</span></span></span><a class="reference internal" href="_modules/bicimad/UrlEMT.html#UrlEMT.get_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.UrlEMT.UrlEMT.get_csv" title="Link to this definition">¶</a></dt>
+<dd><p>Método de instancia que acepta los argumentos de tipo entero month y year y devuelve un fichero
+en formato CSV correspondiente al mes month y año year. El tipo del objeto devuelto es TextIO.
+La función lanza una excepción de tipo ConnectionError en caso de que falle la petición al servidor de la EMT.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>month</strong> (<em>int</em>) – Mes del archivo.</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – Año del archivo.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Un objeto de texto con el contenido CSV.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TextIO</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ConnectionError</strong> – Si falla la descarga del archivo ZIP.</p></li>
+<li><p><strong>ValueError</strong> – Si el archivo ZIP no contiene un CSV.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.UrlEMT.UrlEMT.get_links">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bicimad/UrlEMT.html#UrlEMT.get_links"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.UrlEMT.UrlEMT.get_links" title="Link to this definition">¶</a></dt>
+<dd><p>Toma como parámetros un texto HTML y devuelva un conjunto con todos los enlaces.
+Esta función usa expresiones regulares para encontrar los enlaces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>html</strong> (<em>str</em>) – El texto HTML de la página.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Un conjunto con los enlaces encontrados que coinciden con el patrón de los archivos CSV.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Set[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.UrlEMT.UrlEMT.get_url">
+<span class="sig-name descname"><span class="pre">get_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/bicimad/UrlEMT.html#UrlEMT.get_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.UrlEMT.UrlEMT.get_url" title="Link to this definition">¶</a></dt>
+<dd><p>Método de instancia que acepta los argumentos de tipo entero month y year y devuelve el string de
+la URL correspondiente al mes month y año year. Si no existe un enlace válido correspondiente al
+mes month y año year, se lanzará una excepción de tipo ValueError.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>month</strong> (<em>int</em>) – Mes del archivo (entre 1 y 12).</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – Año del archivo (entre 21 y 23).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>La URL completa del archivo CSV.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Si el mes o el año están fuera del rango permitido, o si no existe un enlace para esa fecha.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bicimad.UrlEMT.UrlEMT.select_valid_urls">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">select_valid_urls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bicimad/UrlEMT.html#UrlEMT.select_valid_urls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bicimad.UrlEMT.UrlEMT.select_valid_urls" title="Link to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Método estático que se encarga de actualizar el atributo de los objetos de la clase.</dt><dd><p>Devuelve un conjunto de enlaces válidos. Si la petición al servidor de la EMT devuelve
+un código de retorno distinto de 200, la función lanza una excepción de tipo ConnectionError.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Un conjunto de URLs válidas completas.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Set[str]</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ConnectionError</strong> – Si la petición al servidor falla o devuelve un código diferente de 200.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">BICIMAD</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-bicimad.bicimad">BiciMad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-bicimad.UrlEMT">UrlEMT</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">BICIMAD documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Jesús García Rodríguez.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

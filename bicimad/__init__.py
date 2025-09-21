@@ -1,3 +1,3 @@
 import truststore
-truststore.inject_into_ssl()
 
+truststore.inject_into_ssl()

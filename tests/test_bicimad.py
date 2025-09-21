@@ -1,6 +1,7 @@
-import pytest
 import pandas as pd
-from bicimad.bicimad  import BiciMad
+import pytest
+
+from bicimad.bicimad import BiciMad
 
 
 def test_constructor_invalid_month_year():
@@ -56,3 +57,70 @@ def test_resume_output():
     assert resumen['total_time'] > 0
     assert isinstance(resumen['most_popular_station'], set)
     assert resumen['uses_from_most_popular'] > 0
+
+@pytest.fixture
+def sample_bicimad():
+    data = {
+        "trip_minutes": [10, 20, 30, 15, 45],
+        "address_unlock": [
+            "Estación A", "Estación B", "Estación A", "Estación C", "Estación A"
+        ],
+        "station_unlock": ["001", "002", "001", "003", "001"],
+        "lock_date": pd.to_datetime([
+            "2022-05-01 ", "2022-05-01 ",
+            "2022-05-02 ", "2022-05-02 ",
+            "2022-05-02 "
+        ])
+    }
+    df = pd.DataFrame(data)
+    df.index = pd.to_datetime([
+        "2022-05-01 ", "2022-05-01 ",
+        "2022-05-02 ", "2022-05-02 ",
+        "2022-05-02 "
+    ])
+    # Creamos un objeto BiciMad con datos falsos
+    bici = BiciMad(5, 22)
+    bici._data = df  # sobrescribimos para no depender de EMT
+    return bici
+
+
+def test_day_time(sample_bicimad):
+    result = sample_bicimad.day_time()
+
+    expected = pd.Series(
+        data=[0.5, 1.5],
+        index=pd.to_datetime(["2022-05-01", "2022-05-02"]),
+        name="trip_minutes"
+    )
+
+    # Verificamos que ambos índices y valores son iguales
+    pd.testing.assert_series_equal(result, expected)
+
+
+def test_weekday_time(sample_bicimad):
+    result = sample_bicimad.weekday_time()
+    assert isinstance(result, pd.Series)
+    assert "D" in result.index or "L" in result.index # días de semana abreviados
+
+
+def test_total_usage_day(sample_bicimad):
+    result = sample_bicimad.total_usage_day()
+    assert result.loc[pd.Timestamp("2022-05-01")] == 2
+
+
+def test_total_usage_by_station_day(sample_bicimad):
+    result = sample_bicimad.total_usage_by_station_day()
+    assert ("2022-05-01", "001") in result.index  # multiíndice
+    assert result.loc[("2022-05-01", "001")] == 1
+
+
+def test_most_popular_stations(sample_bicimad):
+    result = sample_bicimad.most_popular_stations()
+    assert isinstance(result, set)
+    assert "Estación A" in result  # es la más usada
+
+
+def test_usage_from_most_popular_station(sample_bicimad):
+    result = sample_bicimad.usage_from_most_popular_station()
+    assert isinstance(result, pd.Series)
+    assert result.iloc[0] == 3  # Estación A tiene 3 usos
